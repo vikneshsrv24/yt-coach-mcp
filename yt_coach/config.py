@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 from .errors import ConfigError
 
+_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(_ROOT / ".env")  # works regardless of the launch directory
 load_dotenv()
 
 
@@ -27,7 +29,7 @@ class Config:
     api_key: str
     my_channel: str = ""
     competitors: list[str] = field(default_factory=list)
-    db_path: Path = Path(".cache/yt_coach.sqlite3")
+    db_path: Path = _ROOT / ".cache" / "yt_coach.sqlite3"
     ttl_seconds: int = 12 * 3600
 
     @classmethod
@@ -46,6 +48,6 @@ class Config:
             api_key=key,
             my_channel=normalize_handle(os.environ.get("MY_CHANNEL", "")),
             competitors=comps,
-            db_path=Path(os.environ.get("YT_COACH_DB", ".cache/yt_coach.sqlite3")),
+            db_path=Path(os.environ.get("YT_COACH_DB", str(_ROOT / ".cache" / "yt_coach.sqlite3"))),
             ttl_seconds=int(float(os.environ.get("YT_COACH_TTL_HOURS", "12")) * 3600),
         )
