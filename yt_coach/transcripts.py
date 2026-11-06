@@ -87,7 +87,7 @@ def split_transcript(snippets: list[dict], hook_seconds: float = HOOK_SECONDS) -
             "cta_phrases_found": cta,
         },
         "hook_features": {
-            "opens_with_question": parts["hook"].lstrip()[:200].split("?")[0] != parts["hook"].lstrip()[:200] if "?" in parts["hook"][:200] else False,
+            "opens_with_question": "?" in parts["hook"][:200],
             "contains_number": bool(re.search(r"\d", parts["hook"])),
             "first_sentence": re.split(r"(?<=[.!?])\s", parts["hook"], maxsplit=1)[0] if parts["hook"] else "",
         },
